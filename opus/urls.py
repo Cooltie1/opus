@@ -18,5 +18,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('', include('opusapp.urls')),
-    path('admin/', admin.site.urls),
+    path('site-admin/', admin.site.urls),
 ]
