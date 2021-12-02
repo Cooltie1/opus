@@ -11,3 +11,9 @@
 .landing-bg {
     background: url("/static/img/landing.jpg") 50% 0 no-repeat fixed;
 }
+
+body {
+    max-width: 1200px;
+    margin: auto;
+    padding: 25px;
+}
