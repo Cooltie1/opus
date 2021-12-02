@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'opusdb',
         'USER': 'postgres',
-        'PASSWORD': 'admin',
+        'PASSWORD': 'Scott325986!',
         'HOST': 'localhost'
     }
 }

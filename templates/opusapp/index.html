@@ -1,1 +1,12 @@
-Hello World
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+<div class="landing-bg">
+    <div class="landing">
+        <h1>OPUS</h1>
+        <h2>The Opiod Prescriber US Index</h2>
+        <a class="btn btn-primary" href="search" role="button">Search</a>
+    </div>
+</div>
+
+{% endblock %}
