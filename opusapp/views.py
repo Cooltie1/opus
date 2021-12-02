@@ -27,3 +27,6 @@ def dashboardView(request) :
 
 def adminView(request) :
     return render(request, 'opusapp/admin.html')
+
+def adminNewView(request) :
+    return render(request, 'opusapp/admin-new.html')
