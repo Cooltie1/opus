@@ -79,8 +79,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'opusdb',
-        'USER': 'postgres',
-        'PASSWORD': 'Scott325986!',
+        'USER': 'projectuser',
+        'PASSWORD': 'admin',
         'HOST': 'localhost'
     }
 }
