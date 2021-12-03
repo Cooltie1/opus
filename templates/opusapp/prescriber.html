@@ -110,7 +110,7 @@
                 </thead>
                 <tbody>
                     {% for pdrug in prescriber.prescriberdrug_set.all|dictsort:"drug.drug_name" %}
-                        <tr class="tr-link" onclick="window.location.href='{% url 'drug' drugid=pdrug.drug_id %}'">
+                        <tr class="tr-link" onclick="window.location.href='{% url 'drug' drug_id=pdrug.drug_id %}'">
                             <th scope="row"> {{ pdrug.drug.drug_name|truncatechars:20 }} </th>
                             <td>{{ pdrug.count }}</td>
                         </tr>
