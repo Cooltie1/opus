@@ -2,6 +2,10 @@
 {% load static %}
 {% block content %}
 
-search-results page
+{% for dat in data %}
+    {{type}}
+    <a href="{% url 'drug'  drug_id=dat.id %}">{{dat.name}}</a>
+{% endfor %}
+                       
 
 {% endblock %}
