@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from opusapp.models import State, Prescriber
+from opusapp.models import PrescriberDrug, State, Prescriber
 
 # Create your views here.
 def indexPageView(request) :
@@ -25,7 +25,14 @@ def resultsDrugView(request) :
     return render(request, 'opusapp/search-results.html')
 
 def prescriberView(request, npi) :
-    return render(request, 'opusapp/prescriber.html')
+
+    prescriber = Prescriber.objects.get(npi=npi)
+
+    context = {
+        'prescriber' : prescriber,
+    }
+
+    return render(request, 'opusapp/prescriber.html', context)
 
 def drugView(request, drugid) :
     return render(request, 'opusapp/drug.html')
