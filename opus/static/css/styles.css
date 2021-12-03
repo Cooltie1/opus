@@ -21,3 +21,11 @@ body {
 .content-style {
     padding: 15px;
 }
+
+.learn-h1 {
+    color: rgb(3, 3, 77);
+}
+.learn-h2 {
+    color: rgb(121, 156, 168);
+    font-size: 22px;
+}
