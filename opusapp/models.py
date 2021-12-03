@@ -29,7 +29,7 @@ class Prescriber(models.Model) :
     fname = models.CharField(max_length=50)
     lname = models.CharField(max_length=50)
     gender = models.CharField(max_length=1)
-    state = models.ForeignKey(State, on_delete=models.DO_NOTHING)
+    state = models.ForeignKey(State, on_delete=models.DO_NOTHING, db_column='state')
     credential = models.CharField(max_length=25, blank=True)
     specialty = models.CharField(max_length=50)
     is_opioid_prescriber = models.BooleanField()
