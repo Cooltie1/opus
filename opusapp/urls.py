@@ -6,7 +6,6 @@ urlpatterns = [
     path("results/prescriber/", resultsPrescriberView, name="results-prescriber"),
     path("results/drug/", resultsDrugView, name="results-drug"),
     path("prescriber/<int:npi>/", prescriberView, name="prescriber"),
-    path("prescriber-new/", prescriberView, name="prescriber-new"),
     path("drug/<int:drug_id>/", drugView, name="drug"),
     path("learn/", learnView, name="learn"),
     path("dashboard/", dashboardView, name="dashboard"),
