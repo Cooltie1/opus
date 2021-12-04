@@ -2,6 +2,63 @@
 {% load static %}
 {% block content %}
 
-drug page
-
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col text-center">
+                    <h1>{{ drug.drug_name }}</h1>
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Drug Name</th>
+                                        <td>{{ drug.drug_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Drug Id</th>
+                                        <td>{{ drug.drug_id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Is Opioid</th>
+                                        <td>{{ drug.is_opioid }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="text-center">
+                        <h5>Recommended Prescriber</h5>
+                    </div>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>John Doe</td>
+                            </tr>
+                            <tr>
+                                <td>Mary Lamb</td>
+                            </tr>
+                            <tr>
+                                <td>Jackson</td>
+                            </tr>
+                            <tr>
+                                <td>Scott</td>
+                            </tr>
+                            <tr>
+                                <td>Chase</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 {% endblock %}
+
