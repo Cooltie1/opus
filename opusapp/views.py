@@ -66,7 +66,14 @@ def prescriberView(request, npi) :
     return render(request, 'opusapp/prescriber.html', context)
 
 def drugView(request, drug_id) :
-    return render(request, 'opusapp/drug.html')
+
+    drug = Drug.objects.get(drug_id=drug_id)
+
+    context = {
+        'drug' : drug,
+    }
+
+    return render(request, 'opusapp/drug.html', context)
 
 def learnView(request) :
     return render(request, 'opusapp/learn.html')
