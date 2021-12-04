@@ -76,11 +76,25 @@ def dashboardView(request) :
 
 def adminView(request, npi=0) :
     if npi == 0 :
-        return render(request, 'opusapp/admin.html')
+        credentialsSQL = 'select distinct 1 NPI, credential from prescriber order by credential'
+        specialtySQL = 'select distinct 1 NPI, specialty from prescriber order by specialty'
+        context = {
+            "state" : State.objects.all(),
+            "credentials" : Prescriber.objects.raw(credentialsSQL),
+            "specialty" : Prescriber.objects.raw(specialtySQL)
+        }
+        return render(request, 'opusapp/admin.html', context)
     else :
         return render(request, 'opusapp/admin-edit.html')
    
 
 def adminNewView(request) :
     if request.method == 'POST' :
-        return render(request, 'opusapp/admin-new.html')
+        credentialsSQL = 'select distinct 1 NPI, credential from prescriber order by credential'
+        specialtySQL = 'select distinct 1 NPI, specialty from prescriber order by specialty'
+        context = {
+            "state" : State.objects.all(),
+            "credentials" : Prescriber.objects.raw(credentialsSQL),
+            "specialty" : Prescriber.objects.raw(specialtySQL)
+        }
+        return render(request, 'opusapp/admin-new.html', context)
