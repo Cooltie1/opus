@@ -2,6 +2,123 @@
 {% load static %}
 {% block content %}
 
-prescriber page
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            <div class="row">
+                <div class="col text-center">
+                    <h1>{{ prescriber.lname }}, {{ prescriber.fname }}</h1>
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <img class="w-100" src="{% static 'img/profile_pic.png' %}">
+                        </div>
+                        <div class="col">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">NPI #</th>
+                                        <td>{{ prescriber.npi }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Gender</th>
+                                        <td>{{ prescriber.gender }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">State</th>
+                                        <td>{{ prescriber.state.state_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Credential</th>
+                                        <td>{{ prescriber.credential }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Specialty</th>
+                                        <td>{{ prescriber.specialty }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Opioid Prescriber?</th>
+                                        <td>{{ prescriber.is_opioid_prescriber }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Total Prescriptions</th>
+                                        <td>{{ prescriber.total_prescriptions }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="text-center">
+                                <a class="btn btn-primary mt-1 w-100" href="{% url 'admin' npi=prescriber.npi %}" role="button">Edit Info</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="text-center">
+                        <h5>Recommended Drugs</h5>
+                    </div>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>CODEINE</td>
+                            </tr>
+                            <tr>
+                                <td>OMOXYCYLLIN</td>
+                            </tr>
+                            <tr>
+                                <td>METHAMPHETAMINE</td>
+                            </tr>
+                            <tr>
+                                <td>PENICILLIN</td>
+                            </tr>
+                            <tr>
+                                <td>ASPIRIN</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col">
+                    <div class="text-center">
+                        <h5>Machine Learning Predictions</h5>
+                    </div>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Predicted Prescription Count</th>
+                                <td>126</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Predicted to Prescribe Opioids?</th>
+                                <td>No</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col bg-secondary bg-opacity-50">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Drug</th>
+                        <th scope="col">Times Issued</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pdrug in prescriber.prescriberdrug_set.all|dictsort:"drug.drug_name" %}
+                        <tr class="tr-link" onclick="window.location.href='{% url 'drug' drug_id=pdrug.drug_id %}'">
+                            <th scope="row"> {{ pdrug.drug.drug_name|truncatechars:20 }} </th>
+                            <td>{{ pdrug.count }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

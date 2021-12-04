@@ -47,8 +47,9 @@ class Prescriber(models.Model) :
         return self.getName()
 
 class PrescriberDrug(models.Model) :
-    drug = models.ForeignKey(Drug, on_delete=models.CASCADE, db_column='npi')
-    prescriber = models.ForeignKey(Prescriber, on_delete=models.CASCADE, db_column='drug_id')
+    id = models.IntegerField(primary_key=True)
+    drug = models.ForeignKey(Drug, on_delete=models.CASCADE, db_column='drug_id')
+    prescriber = models.ForeignKey(Prescriber, on_delete=models.CASCADE, db_column='npi')
     count = models.IntegerField()
 
     class Meta() :

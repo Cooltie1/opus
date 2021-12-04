@@ -4,8 +4,11 @@
 
 {% for dat in data %}
     {{type}}
+    {% if type == 'drug' %}
     <a href="{% url 'drug'  drug_id=dat.id %}">{{dat.name}}</a>
-{% endfor %}
-                       
+    {% else %}
+    <a href="{% url 'prescriber'  npi=dat.id %}">{{dat.name}}</a>
+    {% endif %}
+{% endfor %}            
 
 {% endblock %}
