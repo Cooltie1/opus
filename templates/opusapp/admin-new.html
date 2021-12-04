@@ -16,7 +16,7 @@
 
     <div class="card-body">
         <div class="tab-content" id="myTabContent">
-                <form>
+                <form method="post" action="{% url 'prescriber-new' %}">
                   {% csrf_token %}
                     <h1>Add New Prescriber</h1>
                     <div class="form-row">
