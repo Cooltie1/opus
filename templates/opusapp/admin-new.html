@@ -19,7 +19,16 @@
                 <form method="post" action="{% url 'admin-new' %}">
                   {% csrf_token %}
                     <h1>Add New Prescriber</h1>
+                    {% if message == 'Added Successfully'%}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                      Added Successfully
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    {% endif %}
                     <div class="form-row">
+                        <input type="hidden" name="added" id="added" value="added">
                         <div class="form-group col-md-2">
                             <label for="inputnpi">NPI</label>
                             <input type="text" class="form-control" id="inputnpi" placeholder="npi" name="npi" minlength='10' maxlength='10' required>
@@ -71,7 +80,7 @@
                         </div>
                       </div>
                     <button type="submit" class="btn btn-outline-primary" id='addButton'>Add</button>
-                    <button type="submit" class="btn btn-outline-primary" formaction="{% url 'admin' %}" formmethod='post'>Cancel</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="window.location={% url 'admin' %};">Cancel</button>
                 </form>
             </div>
     </div>
