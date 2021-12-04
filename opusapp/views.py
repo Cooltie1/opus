@@ -74,8 +74,13 @@ def learnView(request) :
 def dashboardView(request) :
     return render(request, 'opusapp/dashboard.html')
 
-def adminView(request) :
-    return render(request, 'opusapp/admin.html')
+def adminView(request, npi=0) :
+    if npi == 0 :
+        return render(request, 'opusapp/admin.html')
+    else :
+        return render(request, 'opusapp/admin-edit.html')
+   
 
 def adminNewView(request) :
-    return render(request, 'opusapp/admin-new.html')
+    if request.method == 'POST' :
+        return render(request, 'opusapp/admin-new.html')

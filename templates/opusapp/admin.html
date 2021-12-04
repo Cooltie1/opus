@@ -2,6 +2,85 @@
 {% load static %}
 {% block content %}
 
-admin page
+<div class="card ">
+    <div class="card-header"> 
+        <ul class="nav nav-tabs card-header-tabs pull-right"  id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="prescriber-tab" data-toggle="tab" href="#prescriber" role="tab" aria-controls="prescriber" aria-selected="true">Prescriber</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="addNew-tab" data-toggle="tab" href="#addNew" role="tab" aria-controls="addNew" aria-selected="false">Add New Prescriber</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="card-body">
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="prescriber" role="tabpanel" aria-labelledby="prescriber-tab">
+                <form>  
+                    <h1>Search Prescribers</h1>
+                    <div class="form-row">
+                      <div class="form-group col-md-4">
+                        <label for="inputFname">First Name</label>
+                        <input type="text" class="form-control" id="inputFname" placeholder="First Name">
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label for="inputLname">Last Name</label>
+                        <input type="text" class="form-control" id="inputLname" placeholder="Last Name">
+                      </div>
+                      <div class="form-group col-md-2">
+                        <label for="inputCredentials">Credentials</label>
+                        <select id="inputCredentials" class="form-control">
+                          <option selected></option>
+                          {% for credential in credentials %}
+                            <option>{{credential.credential}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-2">
+                        <label for="inputGender">Gender</label>
+                        <select id="inputGender" class="form-control">
+                          <option selected></option>
+                          <option>Male</option>
+                          <option>Female</option>
+                        </select>
+                      </div>
+                      <div class="form-group col-md-3">
+                        <label for="inputState">State</label>
+                        <select id="inputState" class="form-control">
+                          <option selected></option>
+                          {% for stateName in state %}
+                            <option>{{stateName.state_name}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      <div class="form-group col-md-2">
+                        <label for="inputSpecialty">Specialty</label>
+                        <select id="inputSpecialty" class="form-control">
+                          <option selected></option>
+                          {% for specialt in specialty %}
+                            <option>{{specialt.specialty}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary">Search</button>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="addNew" role="tabpanel" aria-labelledby="addNew-tab">
+                <form name="form" method="post" action="{% url 'admin-new' %}">
+                    {% csrf_token %}
+
+                    <h1>Add New Prescriber</h1>
+                    <br>
+                    <button type="submit" class="btn btn-outline-primary">Add New +</button>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
 
 {% endblock %}

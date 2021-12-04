@@ -2,6 +2,86 @@
 {% load static %}
 {% block content %}
 
-admin-new page
+<div class="card ">
+    <div class="card-header"> 
+        <ul class="nav nav-tabs card-header-tabs pull-right"  id="myTab" role="tablist">
+            <li class="nav-item disabled">
+                <a class="nav-link" id="prescriber-tab" data-toggle="tab" href="{% url 'admin' %}" role="tab" aria-controls="prescriber" aria-selected="false" style="color:gray">Prescriber</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" id="addNew-tab" data-toggle="tab" href="#addNew" role="tab" aria-controls="addNew" aria-selected="true">Add New Prescriber</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="card-body">
+        <div class="tab-content" id="myTabContent">
+                <form>
+                  {% csrf_token %}
+                    <h1>Add New Prescriber</h1>
+                    <div class="form-row">
+                        <div class="form-group col-md-2">
+                            <label for="inputnpi">NPI</label>
+                            <input type="text" class="form-control" id="inputnpi" placeholder="npi" name="npi" minlength='10' maxlength='10'>
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label for="inputFname">First Name</label>
+                          <input type="text" class="form-control" id="inputFname" placeholder="First Name" name="fname">
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label for="inputLname">Last Name</label>
+                          <input type="text" class="form-control" id="inputLname" placeholder="Last Name" name="lname">
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-2">
+                            <label for="inputCredentials">Credentials</label>
+                            <select id="inputCredentials" class="form-control" name="credential">
+                              <option selected></option>
+                              {% for credential in credentials %}
+                                <option>{{credential.credential}}</option>
+                              {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                          <label for="inputGender">Gender</label>
+                          <select id="inputGender" class="form-control" name="gender">
+                            <option selected></option>
+                            <option>Male</option>
+                            <option>Female</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="inputState">State</label>
+                          <select id="inputState" class="form-control" name="state">
+                            <option selected></option>
+                            {% for stateName in state %}
+                              <option>{{stateName.state_name}}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                          <label for="inputSpecialty">Specialty</label>
+                          <select id="inputSpecialty" class="form-control" name="specialty">
+                            <option selected></option>
+                            {% for specialt in specialty %}
+                              <option>{{specialt.specialty}}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                    <button type="submit" class="btn btn-outline-primary" id='addButton'>Add</button>
+                    <button type="submit" class="btn btn-outline-primary" formaction="{% url 'admin' %}" formmethod='post'>Cancel</button>
+                </form>
+            </div>
+    </div>
+</div>
+
+<script>
+    let isValid = 0;
+    let addButton = document.getelementbyid('addButton');
+    
+
+</script>
 
 {% endblock %}
