@@ -1,14 +1,26 @@
 {% extends 'base.html'%}
 {% load static %}
 {% block content %}
-
-{% for dat in data %}
-    {{type}}
+<h1>{{type|title}} Results</h1>
+<hr>
+<div class="list-group overflow-auto results">
     {% if type == 'drug' %}
-    <a href="{% url 'drug'  drug_id=dat.id %}">{{dat.name}}</a>
-    {% else %}
-    <a href="{% url 'prescriber'  npi=dat.id %}">{{dat.name}}</a>
+        {% for dat in data %}
+        
+            <a href="{% url 'drug'  drug_id=dat.id %}" class="list-group-item list-group-item-action">{{dat.name}}</a>
+            
+            {% comment %} Drug List {% endcomment %}
+        {% endfor %}  
+        
+    {% else %}  
+        {% for dat in data %}
+            <a href="{% url 'prescriber'  npi=dat.id %}" class="list-group-item list-group-item-action">{{dat.name}}&emsp;<span class="idtext">{{dat.id}}</span></a>
+            
+            {% comment %} Prescriber List {% endcomment %}
+        {% endfor %} 
     {% endif %}
-{% endfor %}            
+</div>
+<a class="btn btn-primary backbtn" href="{% url 'search' %}" role="button">&#8592; Back to Search</a>
+          
 
 {% endblock %}

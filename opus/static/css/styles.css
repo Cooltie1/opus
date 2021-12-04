@@ -39,3 +39,19 @@ body {
 .tr-link {
     cursor: pointer;
 }
+
+.results {
+    max-height: 400px;
+    margin: auto;
+    width: 85%;
+    
+    
+
+}
+
+.idtext {
+    color: lightslategray;
+}
+.backbtn {
+    margin-top: 20px;
+}

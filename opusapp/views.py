@@ -29,7 +29,8 @@ def resultsPrescriberView(request) :
     specialty = request.GET['inputSpecialty']
     data = Prescriber.objects.values('npi', 'fname', 'lname'
     ).annotate(id=F('npi'), name=Concat('lname', Value(', '), 'fname')
-    ).filter(fname__icontains=fname, lname__icontains=lname, credential__icontains=credentials, gender__icontains=gender, state__state_name__icontains=state, specialty__icontains=specialty )
+    ).filter(fname__icontains=fname, lname__icontains=lname, credential__icontains=credentials, gender__icontains=gender, state__state_name__icontains=state, specialty__icontains=specialty
+    ).order_by('name')
     context = {
         'data' : data,
         'type' : 'prescriber'
@@ -46,6 +47,7 @@ def resultsDrugView(request) :
     else :
         data = data.filter(drug_name__icontains=drugname, is_opioid=True)
     
+    data = data.order_by('name')
     
     context = {
         'data' : data,
