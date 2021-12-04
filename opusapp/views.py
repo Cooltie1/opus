@@ -110,31 +110,48 @@ def adminNewView(request) :
         return render(request, 'opusapp/admin-new.html', context)
 
     elif request.method == 'POST':
-        prescriber = Prescriber()
-        state = State.objects.get(state_name = request.POST['state'])
+        new_npi = request.POST['npi']
 
-        prescriber.npi = request.POST['npi']
-        prescriber.fname = request.POST['fname']
-        prescriber.lname = request.POST['lname']
-        prescriber.credential = request.POST['credential']
-        prescriber.gender = request.POST['gender']
-        prescriber.state = state
-        prescriber.specialty = request.POST['specialty']
-        prescriber.is_opioid_prescriber = False
-        prescriber.total_prescriptions = 0
+        try :
+            Prescriber.objects.get(npi = new_npi)
 
-        prescriber.save()
+            credentialsSQL = 'select distinct 1 NPI, credential from prescriber order by credential'
+            specialtySQL = 'select distinct 1 NPI, specialty from prescriber order by specialty'
 
-        credentialsSQL = 'select distinct 1 NPI, credential from prescriber order by credential'
-        specialtySQL = 'select distinct 1 NPI, specialty from prescriber order by specialty'
+            context = {
+                'message' : 'Already Exists',
+                "state" : State.objects.all(),
+                "credentials" : Prescriber.objects.raw(credentialsSQL),
+                "specialty" : Prescriber.objects.raw(specialtySQL),
+                'npi' : new_npi
+            }
+            return render(request, 'opusapp/admin-new.html', context)
+        except :
+            prescriber = Prescriber()
+            state = State.objects.get(state_name = request.POST['state'])
 
-        context = {
-            'message' : 'Added Successfully',
-            "state" : State.objects.all(),
-            "credentials" : Prescriber.objects.raw(credentialsSQL),
-            "specialty" : Prescriber.objects.raw(specialtySQL)
-        }
+            prescriber.npi = request.POST['npi']
+            prescriber.fname = request.POST['fname']
+            prescriber.lname = request.POST['lname']
+            prescriber.credential = request.POST['credential']
+            prescriber.gender = request.POST['gender']
+            prescriber.state = state
+            prescriber.specialty = request.POST['specialty']
+            prescriber.is_opioid_prescriber = False
+            prescriber.total_prescriptions = 0
 
-        return render(request, 'opusapp/admin-new.html', context)
+            prescriber.save()
+
+            credentialsSQL = 'select distinct 1 NPI, credential from prescriber order by credential'
+            specialtySQL = 'select distinct 1 NPI, specialty from prescriber order by specialty'
+
+            context = {
+                'message' : 'Added Successfully',
+                "state" : State.objects.all(),
+                "credentials" : Prescriber.objects.raw(credentialsSQL),
+                "specialty" : Prescriber.objects.raw(specialtySQL)
+            }
+
+            return render(request, 'opusapp/admin-new.html', context)
     else:
         return render(request, 'opusapp/index.html')
