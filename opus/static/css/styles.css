@@ -39,3 +39,7 @@ body {
 .tr-link {
     cursor: pointer;
 }
+
+.table-transparent {
+    background: rgba(0, 0, 0, 0.4)
+}
