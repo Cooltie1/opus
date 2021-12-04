@@ -71,8 +71,7 @@
             </form>
             </div>
             <div class="tab-pane fade" id="addNew" role="tabpanel" aria-labelledby="addNew-tab">
-                <form name="form" method="post" action="{% url 'admin-new' %}">
-                    {% csrf_token %}
+                <form name="form" method="get" action="{% url 'admin-new' %}">
 
                     <h1>Add New Prescriber</h1>
                     <br>
