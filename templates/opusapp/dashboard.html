@@ -2,37 +2,31 @@
 {% load static %}
 {% block content %}
 
-<div class="card ">
+<div class="card">
     <div class="card-header"> 
         <ul class="nav nav-tabs card-header-tabs pull-right"  id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="analysis1-tab" data-toggle="tab" href="#analysis1" role="tab" aria-controls="analysis1" aria-selected="true">Analysis #1</a>
+                <a class="nav-link active" id="analysis1-tab" data-toggle="tab" href="#analysis1" role="tab" aria-controls="analysis1" aria-selected="true">Top Opioid Prescribers</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="analysis2-tab" data-toggle="tab" href="#analysis2" role="tab" aria-controls="analysis2" aria-selected="false">Analysis #2</a>
+                <a class="nav-link" id="analysis2-tab" data-toggle="tab" href="#analysis2" role="tab" aria-controls="analysis2" aria-selected="false">State Opioid Prescription Rates</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="analysis3-tab" data-toggle="tab" href="#analysis3" role="tab" aria-controls="analysis3" aria-selected="false">Analysis #3</a>
+                <a class="nav-link" id="analysis3-tab" data-toggle="tab" href="#analysis3" role="tab" aria-controls="analysis3" aria-selected="false">Top Prescribing States</a>
             </li>
         </ul>
     </div>
 
     <div class="card-body">
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="prescriber" role="tabpanel" aria-labelledby="analysis1-tab">
-                <form> 
-                    <h1>Analysis #1</h1>
-                </form>
+            <div class="tab-pane fade show active" id="analysis1" role="tabpanel" aria-labelledby="analysis1-tab">
+                <img class="w-100" src="{% static 'img/top_opioid_prescribers.png' %}">
             </div>
             <div class="tab-pane fade" id="analysis2" role="tabpanel" aria-labelledby="analysis2-tab">
-                <form>
-                    <h1>Analysis #2</h1>
-                </form>
+                <img class="w-100" src="{% static 'img/state_opioid_prescription_rates.png' %}">
             </div>
             <div class="tab-pane fade" id="analysis3" role="tabpanel" aria-labelledby="analysis3-tab">
-                <form>
-                    <h1>Analysis #3</h1>
-                </form>
+                <img class="w-100" src="{% static 'img/top_prescribing_states.png' %}">
             </div>    
         </div>
     </div>
