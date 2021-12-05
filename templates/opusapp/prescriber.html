@@ -66,21 +66,11 @@
                     </div>
                     <table class="table">
                         <tbody>
-                            <tr>
-                                <td>CODEINE</td>
-                            </tr>
-                            <tr>
-                                <td>OMOXYCYLLIN</td>
-                            </tr>
-                            <tr>
-                                <td>METHAMPHETAMINE</td>
-                            </tr>
-                            <tr>
-                                <td>PENICILLIN</td>
-                            </tr>
-                            <tr>
-                                <td>ASPIRIN</td>
-                            </tr>
+                            {% for drug in recommended_drugs %}
+                                <tr>
+                                    <td>{{ drug }}</td>
+                                </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>

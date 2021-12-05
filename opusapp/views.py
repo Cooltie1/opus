@@ -4,6 +4,9 @@ from opusapp.models import State, Prescriber, Drug
 from django.db.models.functions import Concat
 from django.db.models import Value, F
 
+import requests
+import json
+
 # Create your views here.
 def indexPageView(request) :
     return render(request, 'opusapp/index.html')
@@ -60,9 +63,56 @@ def resultsDrugView(request) :
 def prescriberView(request, npi) :
 
     prescriber = Prescriber.objects.get(npi=npi)
+    prescriber_drugs = prescriber.prescriberdrug_set.all()
+
+    pd_array = list()
+
+    for drug in prescriber_drugs:
+        pd_array.append({"npi": prescriber.npi, "drugname": drug.drug.drug_name, "count": drug.count})
+
+    url = "http://f10c5a45-9edc-4888-8523-31dc6679a174.eastus2.azurecontainer.io/score"
+
+    payload = json.dumps({
+    "Inputs": {
+        "Triple": pd_array,
+        "Prescriber": [
+        {
+            "npi": prescriber.npi,
+            "gender": prescriber.gender,
+            "state": prescriber.state.state_abbrev,
+            "credentials": prescriber.credential,
+            "specialty": prescriber.specialty,
+            "isopioidprescriber": prescriber.is_opioid_prescriber
+        }
+        ],
+        "Drug": [
+        {
+            "drugid": 2,
+            "drugname": "ABILIFY",
+            "isopioid": "False"
+        }
+        ]
+    },
+    "GlobalParameters": {}
+    })
+
+    headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer 22E1USKfKxTpWKxgcO0y7e8TmaNzfWAQ'
+    }
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+
+    json_response = response.json()
+    results = json_response['Results']['WebServiceOutput0'][0]
+    recommended_drugs = list()
+
+    for v in results.values():
+        recommended_drugs.append(v)
 
     context = {
         'prescriber' : prescriber,
+        'recommended_drugs': recommended_drugs,
     }
 
     return render(request, 'opusapp/prescriber.html', context)
@@ -71,8 +121,48 @@ def drugView(request, drug_id) :
 
     drug = Drug.objects.get(drug_id=drug_id)
 
+    url = "http://6cead41f-fcfb-465d-aa56-37d12337ca2a.eastus2.azurecontainer.io/score"
+
+    payload = json.dumps({
+        "Inputs": {
+            "Triple": [{
+                "drug_id": 2,
+                "npi": 1003016270,
+                "count": 15
+            }],
+            "Prescriber": [{
+                "npi": 1003008475,
+                "gender": "F",
+                "state": "GA",
+                "credentials": "NP",
+                "specialty": "Nurse Practitioner"
+            }],
+            "Drug": [{
+                "drugid": drug.drug_id,
+                "drugname": drug.drug_name,
+                "isopioid": str(drug.is_opioid)
+            }]
+        },
+        "GlobalParameters": {}
+    })
+
+    headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer V3ut4SLWIpCa9FNd2impNwMnGGKgtaFJ'
+    }
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+
+    json_response = response.json()
+    results = json_response['Results']['WebServiceOutput0'][0]
+    recommended_prescribers = list()
+
+    for v in results.values():
+        recommended_prescribers.append(Prescriber.objects.get(npi=v))
+
     context = {
         'drug' : drug,
+        'recommended_prescribers' : recommended_prescribers,
     }
 
     return render(request, 'opusapp/drug.html', context)
