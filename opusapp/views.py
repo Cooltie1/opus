@@ -336,10 +336,6 @@ def savePrescriberView(request, npi) :
 
     prescriber.save()
 
-    context = {
-        'prescriber' : prescriber,
-    }
-
     return redirect('prescriber', npi)
 
 def deletePageView(request, npi) :
