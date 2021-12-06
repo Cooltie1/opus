@@ -315,12 +315,14 @@ def editPrescriberView(request, npi) :
 
     credentialsSQL = 'select distinct 1 NPI, credential from prescriber order by credential'
     specialtySQL = 'select distinct 1 NPI, specialty from prescriber order by specialty'
+    drugSQL = 'select * from drug order by drug_name'
 
     context = {
         "prescriber" : prescriber,
         "state" : State.objects.all(),
         "credentials" : Prescriber.objects.raw(credentialsSQL),
-        "specialty" : Prescriber.objects.raw(specialtySQL)
+        "specialty" : Prescriber.objects.raw(specialtySQL),
+        "drugs" : Drug.objects.raw(drugSQL)
     }
 
     return render(request, 'opusapp/admin-edit.html', context)
@@ -342,10 +344,9 @@ def savePrescriberView(request, npi) :
     return redirect('prescriber', npi)
 
 def deletePageView(request, npi) :
-    print("hello")
     Prescriber.objects.get(npi=npi).delete()
-
-    
-
-    
     return redirect('search')
+
+def editDrugs(request, npi) :
+    
+    return redirect('prescriber', npi)
