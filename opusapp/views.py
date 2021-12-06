@@ -73,6 +73,9 @@ def prescriberView(request, npi) :
     for drug in prescriber_drugs:
         pd_array.append({"npi": prescriber.npi, "drugname": drug.drug.drug_name, "count": drug.count})
 
+    if len(pd_array) == 0 :
+        pd_array.append({"npi": 0, "drugname": ' ', "count": 0})
+
     url = "http://f10c5a45-9edc-4888-8523-31dc6679a174.eastus2.azurecontainer.io/score"
 
     payload = json.dumps({
