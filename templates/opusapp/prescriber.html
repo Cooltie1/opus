@@ -82,11 +82,11 @@
                         <tbody>
                             <tr>
                                 <th scope="row">Predicted Prescription Count</th>
-                                <td>126</td>
+                                <td>{{ predicted_prescriptions|floatformat }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Predicted to Prescribe Opioids?</th>
-                                <td>No</td>
+                                <td>{{ predicted_prescriber|title }}</td>
                             </tr>
                         </tbody>
                     </table>

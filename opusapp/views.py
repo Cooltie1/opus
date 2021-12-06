@@ -63,6 +63,9 @@ def resultsDrugView(request) :
 def prescriberView(request, npi) :
 
     prescriber = Prescriber.objects.get(npi=npi)
+
+    # Recommender endpoint
+
     prescriber_drugs = prescriber.prescriberdrug_set.all()
 
     pd_array = list()
@@ -110,9 +113,66 @@ def prescriberView(request, npi) :
     for v in results.values():
         recommended_drugs.append(v)
 
+
+    # Classification Endpoint
+
+    url2 = "http://5945a9a0-d5e3-48dd-aabe-14062600c948.eastus2.azurecontainer.io/score"
+
+    payload2 = json.dumps({
+    "Inputs": {
+        "Prescriber": [
+        {
+            "gender": prescriber.gender,
+            "state": prescriber.state.state_abbrev,
+            "credentials": prescriber.credential,
+            "specialty": prescriber.specialty
+        }
+        ]
+    },
+    "GlobalParameters": {}
+    })
+    headers2 = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer hPSeYAfReUAocTuFBhOAceV3pIsaeT9w'
+    }
+
+    response2 = requests.request("POST", url2, headers=headers2, data=payload2)
+    json_response2 = response2.json()
+    predicted_prescriber = json_response2['Results']['WebServiceOutput0'][0]['Scored Labels']
+
+
+    # Regression endpoint
+
+    url3 = "http://5ac3a83a-6af1-4054-8047-e88567f6e85b.eastus2.azurecontainer.io/score"
+
+    payload3 = json.dumps({
+    "Inputs": {
+        "Prescriber": [
+        {
+            "gender": prescriber.gender,
+            "state": prescriber.state.state_abbrev,
+            "credentials": prescriber.credential,
+            "specialty": prescriber.specialty
+        }
+        ]
+    },
+    "GlobalParameters": {}
+    })
+    headers3 = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer eHUpjMW1d4K6SIK4bg189mvrLhKaK7Hl'
+    }
+
+    response3 = requests.request("POST", url3, headers=headers3, data=payload3)
+    json_response3 = response3.json()
+    predicted_prescriptions = json_response3['Results']['WebServiceOutput0'][0]['Scored Labels']
+    predicted_prescriptions = round(predicted_prescriptions, 0)
+
     context = {
         'prescriber' : prescriber,
         'recommended_drugs': recommended_drugs,
+        'predicted_prescriber': predicted_prescriber,
+        'predicted_prescriptions': predicted_prescriptions,
     }
 
     return render(request, 'opusapp/prescriber.html', context)
