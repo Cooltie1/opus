@@ -6,6 +6,9 @@
     <div class="row">
         <div class="col-8">
             <div class="row">
+                <div class="col-2">
+                    <button type="button" class="btn btn-outline-primary" onclick="window.history.back();">&#8592; Back</button>
+                </div>
                 <div class="col text-center">
                     <h1>{{ prescriber.lname }}, {{ prescriber.fname }}</h1>
                 </div>
@@ -63,21 +66,11 @@
                     </div>
                     <table class="table">
                         <tbody>
-                            <tr>
-                                <td>CODEINE</td>
-                            </tr>
-                            <tr>
-                                <td>OMOXYCYLLIN</td>
-                            </tr>
-                            <tr>
-                                <td>METHAMPHETAMINE</td>
-                            </tr>
-                            <tr>
-                                <td>PENICILLIN</td>
-                            </tr>
-                            <tr>
-                                <td>ASPIRIN</td>
-                            </tr>
+                            {% for drug in recommended_drugs %}
+                                <tr>
+                                    <td>{{ drug }}</td>
+                                </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -89,18 +82,18 @@
                         <tbody>
                             <tr>
                                 <th scope="row">Predicted Prescription Count</th>
-                                <td>126</td>
+                                <td>{{ predicted_prescriptions|floatformat }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Predicted to Prescribe Opioids?</th>
-                                <td>No</td>
+                                <td>{{ predicted_prescriber|title }}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        <div class="col bg-secondary bg-opacity-50">
+        <div class="col table-transparent overflow-auto drugoverflow">
             <table class="table table-hover">
                 <thead>
                     <tr>

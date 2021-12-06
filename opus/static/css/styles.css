@@ -60,3 +60,21 @@ body {
     pointer-events:none;
     opacity:0.6;
 }
+
+.table-transparent {
+    background: rgba(0, 0, 0, 0.2)
+}
+
+.drugoverflow {
+    height: 760px;
+}
+
+.header {
+    font-size: 48px;
+}
+
+.subheading {
+    font-weight: normal;
+    font-size: 30px;
+    
+}
