@@ -2,5 +2,95 @@
 {% load static %}
 {% block content %}
 
-Admin-edit page
+<div class="card ">
+    <div class="card-header"></div>
+
+    <div class="card-body">
+        <div class="tab-content" id="myTabContent">
+                <form method="post" action="{% url 'saveprescriber' npi=prescriber.npi %}">
+                  {% csrf_token %}
+                    <h1>Edit Prescriber</h1>
+                    {% if message == 'Added Successfully'%}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                      Added Successfully
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    {% endif %}
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                          <label for="inputFname">First Name</label>
+                          <input type="text" class="form-control" id="inputFname" value={{ prescriber.fname }} name="fname" maxlength='50' required>
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label for="inputLname">Last Name</label>
+                          <input type="text" class="form-control" id="inputLname" value={{ prescriber.lname }} name="lname" maxlength='50' required>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-2">
+                            <label for="inputCredentials">Credentials</label>
+                            <select type="text" class="form-control" id="inputCredentials" name="credential" maxlength='50' required>
+                            
+                              {% for credential in credentials %} 
+                                    {% if prescriber.credential == credential.credential %}
+                                        <option selected>{{ credential.credential }}</option>
+                                    {% else %}
+                                        <option>{{ credential.credential }}</option>
+                                    {% endif %}
+                              {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                          <label for="inputGender">Gender</label>
+                          <select type="text" class="form-control" id="inputLname"  name="gender" maxlength='50' required>
+                                {% if prescriber.gender  == "M" %}
+                                    <option selected>M</option> 
+                                    <option>F</option>
+                                {% else %}
+                                    <option selected>F</option>
+                                    <option>M</option>
+                                {% endif %}
+                          </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="inputState">State</label>
+                          <select type="text" class="form-control" id="inputLname"  name="state" maxlength='50' required>
+                        
+                          {% for stateName in state %}
+                          {% if prescriber.state.state_name == stateName.state_name %}
+                              <option selected>{{stateName.state_name}}</option>
+                            {% else %}
+                            <option>{{stateName.state_name}}</option>
+                            {% endif %}
+                            {% endfor %}
+                          </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                          <label for="inputSpecialty">Specialty</label>
+                          <select type="text" class="form-control" id="inputLname" name="specialty" maxlength='50' required>
+                            
+                            {% for specialt in specialty %}
+                            {% if prescriber.specialty == specialt.specialty %}
+                              <option selected>{{specialt.specialty}}</option>
+                            {% else %}
+                              <option>{{specialt.specialty}}</option>
+                            {% endif %}
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                    <button type="submit" class="btn btn-primary" id="saveButton">Save</button>
+                    <button type="button" class="btn btn-danger" onclick="window.location={% url 'delete' %};">Delete</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="window.history.back();">Cancel</button>
+                </form>
+                
+               
+            </div>
+    </div>
+</div>
+
+
+
 {% endblock %}

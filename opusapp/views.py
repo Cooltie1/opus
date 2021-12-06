@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from opusapp.models import State, Prescriber, Drug
 from django.db.models.functions import Concat
@@ -138,3 +138,53 @@ def adminNewView(request) :
         return render(request, 'opusapp/admin-new.html', context)
     else:
         return render(request, 'opusapp/index.html')
+
+def editPrescriberView(request, npi) :
+
+    prescriber = Prescriber.objects.get(npi=npi)
+
+    credentialsSQL = 'select distinct 1 NPI, credential from prescriber order by credential'
+    specialtySQL = 'select distinct 1 NPI, specialty from prescriber order by specialty'
+
+    context = {
+        "prescriber" : prescriber,
+        "state" : State.objects.all(),
+        "credentials" : Prescriber.objects.raw(credentialsSQL),
+        "specialty" : Prescriber.objects.raw(specialtySQL)
+    }
+
+    return render(request, 'opusapp/admin-edit.html', context)
+
+def savePrescriberView(request, npi) :
+   
+    prescriber = Prescriber.objects.get(npi=npi)
+    state = State.objects.get(state_name = request.POST['state'])
+
+    prescriber.fname = request.POST['fname']
+    prescriber.lname = request.POST['lname']
+    prescriber.credential = request.POST['credential']
+    prescriber.gender = request.POST['gender']
+    prescriber.state = state
+    prescriber.specialty = request.POST['specialty']
+
+    prescriber.save()
+
+    context = {
+        'prescriber' : prescriber,
+    }
+
+    return redirect('prescriber', npi)
+
+def deletePageView(request) :
+
+    credentialsSQL = 'select distinct 1 NPI, credential from prescriber order by credential'
+    specialtySQL = 'select distinct 1 NPI, specialty from prescriber order by specialty'
+
+    context = {
+        "state" : State.objects.all(),
+        "credentials" : Prescriber.objects.raw(credentialsSQL),
+        "specialty" : Prescriber.objects.raw(specialtySQL)
+    }
+
+    
+    return render(request, 'opusapp/search.html', context)
