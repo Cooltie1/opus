@@ -68,3 +68,13 @@ body {
 .drugoverflow {
     height: 760px;
 }
+
+.header {
+    font-size: 48px;
+}
+
+.subheading {
+    font-weight: normal;
+    font-size: 30px;
+    
+}
