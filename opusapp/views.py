@@ -342,16 +342,11 @@ def savePrescriberView(request, npi) :
 
     return redirect('prescriber', npi)
 
-def deletePageView(request) :
-
-    credentialsSQL = 'select distinct 1 NPI, credential from prescriber order by credential'
-    specialtySQL = 'select distinct 1 NPI, specialty from prescriber order by specialty'
-
-    context = {
-        "state" : State.objects.all(),
-        "credentials" : Prescriber.objects.raw(credentialsSQL),
-        "specialty" : Prescriber.objects.raw(specialtySQL)
-    }
+def deletePageView(request, npi) :
+    print("hello")
+    Prescriber.objects.get(npi=npi).delete()
 
     
-    return render(request, 'opusapp/search.html', context)
+
+    
+    return redirect('search')

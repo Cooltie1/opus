@@ -13,6 +13,6 @@ urlpatterns = [
     path("admin/new/", adminNewView, name="admin-new"),
     path("editprescriber/<int:npi>/", editPrescriberView, name="prescriber-edit"),
     path("updateprescriber/<int:npi>/", savePrescriberView, name="saveprescriber"),
-    path("search/", deletePageView, name="delete"),
+    path("delete/<int:npi>/", deletePageView, name="delete"),
     path("admin/", adminView, name="admin"),
 ]

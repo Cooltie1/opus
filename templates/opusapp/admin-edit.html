@@ -82,7 +82,8 @@
                         </div>
                       </div>
                     <button type="submit" class="btn btn-primary" id="saveButton">Save</button>
-                    <button type="button" class="btn btn-danger" onclick="window.location={% url 'delete' %};">Delete</button>
+                    <a class="btn btn-danger" href="{% url 'delete' npi=prescriber.npi %}" role="button">Delete</a>
+                    
                     <button type="button" class="btn btn-outline-primary" onclick="window.history.back();">Cancel</button>
                 </form>
                 
