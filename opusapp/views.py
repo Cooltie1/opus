@@ -43,6 +43,7 @@ def resultsPrescriberView(request) :
     return render(request, 'opusapp/search-results.html', context)
 
 def resultsDrugView(request) :
+    prescriber = Prescriber.objects.raw()
     drugname = request.GET['inputDrugName']
     data = Drug.objects.values('drug_id', 'drug_name').annotate(id=F('drug_id'), name=F('drug_name'))
     if 'isOpiate' not in request.GET :
@@ -54,7 +55,8 @@ def resultsDrugView(request) :
     
     context = {
         'data' : data,
-        'type' : 'drug'
+        'type' : 'drug',
+        'prescriber' : prescriber,
     }
 
 
