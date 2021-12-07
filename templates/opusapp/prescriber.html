@@ -4,12 +4,10 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-8">
+        <div class="col-7">
             <div class="row">
                 <div class="col-2">
-                    
                     <button type="button" class="btn btn-outline-primary" onclick="window.history.back();">&#8592; Back</button>
-                    
                 </div>
                 <div class="col text-center">
                     <h1>{{ prescriber.lname }}, {{ prescriber.fname }}</h1>
@@ -101,13 +99,15 @@
                     <tr>
                         <th scope="col">Drug</th>
                         <th scope="col">Times Issued</th>
+                        <th scope="col">Avg Times Issued</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for pdrug in prescriber.prescriberdrug_set.all|dictsort:"drug.drug_name" %}
+                    {% for pdrug in drug_table %}
                         <tr class="tr-link" onclick="window.location.href='{% url 'drug' drug_id=pdrug.drug_id %}'">
-                            <th scope="row"> {{ pdrug.drug.drug_name|truncatechars:20 }} </th>
+                            <th scope="row"> {{ pdrug.drug_name|truncatechars:20 }} </th>
                             <td>{{ pdrug.count }}</td>
+                            <td>{{ pdrug.avg }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>

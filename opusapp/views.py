@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from opusapp.models import State, Prescriber, Drug, PrescriberDrug
+from opusapp.models import PrescriberDrug, State, Prescriber, Drug
 from django.db.models.functions import Concat
 from django.db.models import Value, F
 from django.db import connection
@@ -64,6 +64,25 @@ def resultsDrugView(request) :
 def prescriberView(request, npi) :
 
     prescriber = Prescriber.objects.get(npi=npi)
+    drug_table = list()
+
+    # Get the prescriber's prescribed drugs and their respective averages across all prescribers
+
+    with connection.cursor() as cursor :
+        sql = """select pd.drug_id, d.drug_name, pd.count, round(avg_table.average) as avg
+                from prescriber_drug pd
+                inner join drug d on pd.drug_id = d.drug_id
+                inner join (
+                    select pd.drug_id, avg(pd.count) as average
+                    from prescriber_drug pd
+                    group by pd.drug_id
+                ) as avg_table on avg_table.drug_id = pd.drug_id
+                where pd.npi = %s
+                order by d.drug_name"""
+        cursor.execute(sql, [npi])
+        results = cursor.fetchall()
+        for r in results :
+            drug_table.append({'drug_name' : r[1], 'drug_id' : r[0], 'count': r[2], 'avg': r[3]})
 
     # Recommender endpoint
 
@@ -174,6 +193,7 @@ def prescriberView(request, npi) :
 
     context = {
         'prescriber' : prescriber,
+        'drug_table' : drug_table,
         'recommended_drugs': recommended_drugs,
         'predicted_prescriber': predicted_prescriber,
         'predicted_prescriptions': predicted_prescriptions,
