@@ -93,8 +93,8 @@
               <form method="post" action="{% url 'editdrugs' npi=prescriber.npi %}">
                 {% csrf_token %}
                 <div class="form-group col-md-4">
-                    <label for="inputState">Drug</label>
-                    <select id="inputState" class="form-control" required>
+                    <label for="inputDrug">Drug</label>
+                    <select id="inputDrug" class="form-control" name="inputDrug" required>
                       <option></option>
                       {% for drug in drugs %}
                       <option value="{{drug.drug_id}}">{{drug.drug_name}}</option>
@@ -103,13 +103,12 @@
                   </div>
                   <div class="form-group col-md-2">
                     <label for="inputPrescriptionCount">Prescription Count</label>
-                    <input type="number" class="form-control" id="inputPrescriptionCount" min="0" step="1" required>
+                    <input type="number" class="form-control" id="inputPrescriptionCount" min="0" step="1" name="inputPrescriptionCount"  required>
                   </div>
                 <button type="submit" class="btn btn-primary" >Save</button>
                 <button type="button" class="btn btn-outline-primary" onclick="window.history.back();">Cancel</button>
               </form>
           </div>
-          
       </div>
   </div>
 </div>
