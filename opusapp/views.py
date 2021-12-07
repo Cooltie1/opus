@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 
-from opusapp.models import State, Prescriber, Drug
+from opusapp.models import State, Prescriber, Drug, PrescriberDrug
 from django.db.models.functions import Concat
 from django.db.models import Value, F
+from django.db import connection
 
 import requests
 import json
@@ -348,5 +349,24 @@ def deletePageView(request, npi) :
     return redirect('search')
 
 def editDrugs(request, npi) :
-    
-    return redirect('prescriber', npi)
+    prescriberDrug = PrescriberDrug()
+    try :
+        prescriber = Prescriber.objects.get(npi=npi)
+        drug = Drug.objects.get(drug_id=request.POST['inputDrug'])
+        prescriberDrug = PrescriberDrug.objects.get(prescriber=npi, drug_id=request.POST['inputDrug'])
+        prescriberDrug.count = request.POST['inputPrescriptionCount']
+        prescriberDrug.save()
+        # update existing row
+
+        return redirect('prescriber', npi)
+    except :
+        prescriber = Prescriber.objects.get(npi=npi)
+        drug = Drug.objects.get(drug_id=request.POST['inputDrug'])
+        prescriberDrug.drug = drug
+        prescriberDrug.prescriber = prescriber
+        prescriberDrug.count = request.POST['inputPrescriptionCount']
+        
+        prescriberDrug.save()
+        # create new row
+
+        return redirect('prescriber', npi)
