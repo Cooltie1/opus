@@ -44,7 +44,6 @@ def resultsPrescriberView(request) :
     return render(request, 'opusapp/search-results.html', context)
 
 def resultsDrugView(request) :
-    prescriber = Prescriber.objects.raw()
     drugname = request.GET['inputDrugName']
     data = Drug.objects.values('drug_id', 'drug_name').annotate(id=F('drug_id'), name=F('drug_name'))
     if 'isOpiate' not in request.GET :
@@ -57,7 +56,6 @@ def resultsDrugView(request) :
     context = {
         'data' : data,
         'type' : 'drug',
-        'prescriber' : prescriber,
     }
 
 
@@ -204,6 +202,18 @@ def prescriberView(request, npi) :
     return render(request, 'opusapp/prescriber.html', context)
 
 def drugView(request, drug_id) :
+    prescriber_table = list()
+    with connection.cursor() as cursor :
+        sql = """SELECT p.npi, concat(fname, ', ', lname) AS prescriber, count
+            FROM prescriber p INNER JOIN prescriber_drug pd ON p.npi = pd.npi
+            WHERE drug_id = %s
+            GROUP BY p.npi, prescriber, count
+            ORDER BY count DESC LIMIT 10"""
+        cursor.execute(sql, [drug_id])
+        results = cursor.fetchall()
+        for r in results :
+            prescriber_table.append({'npi' : r[0], 'prescriber' : r[1], 'count' : r[2]})
+    print(prescriber_table)
 
     drug = Drug.objects.get(drug_id=drug_id)
 
@@ -249,6 +259,7 @@ def drugView(request, drug_id) :
     context = {
         'drug' : drug,
         'recommended_prescribers' : recommended_prescribers,
+        'top_prescribers' : prescriber_table,
     }
 
     return render(request, 'opusapp/drug.html', context)

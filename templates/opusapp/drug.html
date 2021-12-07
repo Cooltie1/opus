@@ -16,6 +16,7 @@
             <div class="row mb-5">
                 <div class="col">
                     <div class="row">
+                    
                         <div class="col">
                             <table class="table">
                                 <tbody>
@@ -34,19 +35,19 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col table-transparent overflow-auto drugoverflow">
+                
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="text-center">
+                                <h5>Recommended Prescriber</h5>
+                            </div>
                             <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Prescriber</th>
-                                        <th scope="col">Times Issued</th>
-                                    </tr>
-                                </thead>
                                 <tbody>
-                                    {% for pdrug in prescriber.prescriberdrug_set.all|dictsort:"drug.drug_name" %}
-                                        <tr class="tr-link" onclick="window.location.href='{% url 'drug' drug_id=pdrug.drug_id %}'">
-                                            <th scope="row"> {{ pdrug.drug.drug_name|truncatechars:20 }} </th>
-                                            <td>{{ pdrug.count }}</td>
+                                    {% for prescriber in recommended_prescribers %}
+                                        <tr class="tr-link" onclick="window.location.href='{% url 'prescriber' npi=prescriber.npi %}'">
+                                            <td>{{ prescriber }}</td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>
@@ -54,17 +55,19 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="text-center">
-                        <h5>Recommended Prescriber</h5>
-                    </div>
+                <div class="col table-transparent">
                     <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Prescriber</th>
+                                <th scope="col">Times Issued</th>
+                            </tr>
+                        </thead>
                         <tbody>
-                            {% for prescriber in recommended_prescribers %}
-                                <tr class="tr-link" onclick="window.location.href='{% url 'prescriber' npi=prescriber.npi %}'">
-                                    <td>{{ prescriber }}</td>
+                            {% for row in top_prescribers %}
+                                <tr class="tr-link" onclick="window.location.href='{% url 'prescriber' npi=row.npi %}'">
+                                    <th scope="row"> {{ row.prescriber }} </th>
+                                    <td>{{ row.count }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
